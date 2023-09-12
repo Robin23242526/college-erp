@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Attendance</title>
+  <style>
+    .student {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border: 1px solid #ccc;
+      margin: 10px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .selected {
+      background-color: #E9C46A;
+    }
+
+    .submit-btn {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Student Attendance</h1>
+  <div id="studentList">
+    <!-- Student attendance blocks will be dynamically generated here -->
+  </div>
+  <button class="submit-btn" onclick="submitAttendance()">Submit Attendance</button>
+
+  <script>
+    const students = [
+      { id: 1, name: "John Doe" },
+      { id: 2, name: "Jane Smith" },
+      { id: 3, name: "Mike Johnson" },
+      { id: 4, name: "Emily Brown" },
+      { id: 5, name: "David Wilson" }
+    ];
+
+    function createStudentBlock(student) {
+      const studentBlock = document.createElement("div");
+      studentBlock.className = "student";
+      studentBlock.id = student.id;
+      studentBlock.textContent = student.name;
+      studentBlock.addEventListener("click", toggleSelection);
+
+      return studentBlock;
+    }
+
+    function populateStudentList() {
+      const studentList = document.getElementById("studentList");
+
+      students.forEach(function(student) {
+        const studentBlock = createStudentBlock(student);
+        studentList.appendChild(studentBlock);
+      });
+    }
+
+    function toggleSelection() {
+      this.classList.toggle("selected");
+    }
+
+    function submitAttendance() {
+      const selectedStudents = Array.from(document.getElementsByClassName("selected")).map(function(studentBlock) {
+        const id = Number(studentBlock.id);
+        const name = studentBlock.textContent;
+        return { id, name };
+      });
+
+      console.log("Selected Students:");
+      console.log(selectedStudents);
+
+      // Clear selection
+      const studentBlocks = document.getElementsByClassName("student");
+      Array.from(studentBlocks).forEach(function(studentBlock) {
+        studentBlock.classList.remove("selected");
+      });
+    }
+
+    populateStudentList();
+  </script>
+</body>
+
+</html>
